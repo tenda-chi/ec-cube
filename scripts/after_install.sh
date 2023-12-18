@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "after_install.sh start..."
+
 # rsync source
 rsync -vaW --delete-after \
     --exclude "*.env" \
@@ -31,3 +33,6 @@ composer install --no-interaction --prefer-dist --optimize-autoloader
 
 # キャッシュのクリア
 # php artisan cache:clear
+
+echo "after_install.sh end."
+
