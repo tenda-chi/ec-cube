@@ -1,6 +1,11 @@
 #!/bin/bash
 
-echo "after_install.sh start..."
+LOG_FILE=/tmp/codedeploy.log
+echo "after_install.sh start..." | tee -a $LOG_FILE
+date | tee -a $LOG_FILE
+
+SOURCE_DIR=/var/codedeploy/ec-cube/
+TARGET_DIR=/home/ec-cube/
 
 # rsync source
 rsync -vaW --delete-after \
@@ -20,13 +25,13 @@ rsync -vaW --delete-after \
     --exclude "*.log" \
     --exclude "*.idea" \
     --exclude "*.settings" \
-    /var/codedeploy/ec-cube/ /home/ec-cube/
+    $SOURCE_DIR $TARGET_DIR 2>&1 | tee -a $LOG_FILE
 
 # Application ディレクトリに移動
-cd /var/www/html/
+cd $TARGET_DIR
 
 # Composerを使用して依存関係をインストール
-composer install --no-interaction --prefer-dist --optimize-autoloader
+composer install --no-interaction --prefer-dist --optimize-autoloader | tee -a $LOG_FILE
 
 # マイグレーション
 # php artisan migrate --force
@@ -34,5 +39,5 @@ composer install --no-interaction --prefer-dist --optimize-autoloader
 # キャッシュのクリア
 # php artisan cache:clear
 
-echo "after_install.sh end."
+echo "after_install.sh end." | tee -a $LOG_FILE
 
