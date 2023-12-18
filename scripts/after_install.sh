@@ -2,6 +2,9 @@
 
 echo "after_install.sh start..."
 
+SOURCE_DIR=/var/codedeploy/ec-cube/
+TARGET_DIR=/home/ec-cube/
+
 # rsync source
 rsync -vaW --delete-after \
     --exclude "*.env" \
@@ -20,10 +23,10 @@ rsync -vaW --delete-after \
     --exclude "*.log" \
     --exclude "*.idea" \
     --exclude "*.settings" \
-    /var/codedeploy/ec-cube/ /home/ec-cube/
+    $SOURCE_DIR $TARGET_DIR
 
 # Application ディレクトリに移動
-cd /var/www/html/
+cd $TARGET_DIR
 
 # Composerを使用して依存関係をインストール
 composer install --no-interaction --prefer-dist --optimize-autoloader
