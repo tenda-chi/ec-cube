@@ -18,7 +18,7 @@ rsync -vaW --delete-after \
     --exclude "*.log" \
     --exclude "*.idea" \
     --exclude "*.settings" \
-    /var/codedeploy/ec-cube/ /var/www/html/
+    /var/codedeploy/ec-cube/ /home/ec-cube/
 
 # Application ディレクトリに移動
 cd /var/www/html/
